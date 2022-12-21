@@ -1,6 +1,7 @@
 // Make express server 
 const express = require('express');
 const cors = require('cors');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 app.get('/', (req, res) => {
@@ -19,6 +20,25 @@ const users = [
 ];
 
 
+
+// username: Admin 1
+// password : 4Uo7fzG4Ylhucko6
+
+const uri = "mongodb+srv://Admin1:4Uo7fzG4Ylhucko6@cluster0.jrurpuf.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+    const collection = client.db("SimpleNode").collection("Users");
+    // perform actions on the collection object
+    console.log('database connected');
+    client.close();
+});
+
+
+
+
+
+
+
 app.get('/users', (req, res) => {
     res.send(users)
 })
@@ -26,7 +46,7 @@ app.get('/users', (req, res) => {
 
 
 app.post('/users', (req, res) => {
-    console.log('post api call')
+    // console.log('post api call')
     const user = req.body;
     user.id = users.length + 1;
     users.push(user);
